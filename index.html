@@ -14,13 +14,18 @@
         <img src="assets/doverow.png" alt="" class="welcome-window__logo" width="48" height="44">
         <h1 class="dialog-title">Welcome to Doverow</h1>
         <p class="welcome-window__text">Doverow is a label that creates personal artifacts and collectible objects.</p>
-        <form class="welcome-form" id="welcome-form">
+        <form class="welcome-form" id="welcome-form" method="post" action="#">
           <label class="welcome-form__label" for="welcome-email">Join our newsletter</label>
           <input class="welcome-form__input" type="email" id="welcome-email" name="email" placeholder="you@email.com" autocomplete="email" required>
           <p class="welcome-form__success" id="welcome-success" hidden>You're on the list.</p>
           <p class="welcome-form__error" id="welcome-error" hidden>Something went wrong. Please try again.</p>
-          <button type="submit" class="mac-button" id="welcome-submit">Join</button>
+          <button type="button" class="mac-button" id="welcome-submit">Join</button>
         </form>
+        <script>
+          document.getElementById('welcome-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+          }, true);
+        </script>
       </div>
     </div>
   </div>
@@ -139,7 +144,6 @@
   <div class="cart-backdrop" id="cart-backdrop" hidden></div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="config.js"></script>
   <script src="app.js"></script>
 </body>

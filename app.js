@@ -23,14 +23,40 @@ const PLACEHOLDER_ITEMS = {
 
 let cart = [];
 let supabaseClient = null;
+let supabaseLoading = null;
 let appInitialized = false;
 let keyBuffer = '';
 let keyBufferTimer = null;
 
-function getSupabase() {
+function loadSupabaseScript() {
+  if (window.supabase?.createClient) {
+    return Promise.resolve();
+  }
+
+  if (supabaseLoading) return supabaseLoading;
+
+  supabaseLoading = new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
+    script.async = true;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error('Failed to load newsletter service'));
+    document.head.appendChild(script);
+  });
+
+  return supabaseLoading;
+}
+
+async function getSupabase() {
   if (supabaseClient) return supabaseClient;
 
-  if (!window.supabase?.createClient || !window.SUPABASE_CONFIG?.url || !window.SUPABASE_CONFIG?.anonKey) {
+  if (!window.SUPABASE_CONFIG?.url || !window.SUPABASE_CONFIG?.anonKey) {
+    return null;
+  }
+
+  await loadSupabaseScript();
+
+  if (!window.supabase?.createClient) {
     return null;
   }
 
@@ -55,7 +81,7 @@ async function saveNewsletterEmail(email) {
   const trimmed = email.trim().toLowerCase();
   if (!trimmed) return { ok: false };
 
-  const client = getSupabase();
+  const client = await getSupabase();
   if (!client) {
     return { ok: false, error: new Error('Newsletter service unavailable') };
   }
@@ -123,15 +149,20 @@ function setupWelcomeGate() {
   const successEl = document.getElementById('welcome-success');
   const errorEl = document.getElementById('welcome-error');
   const submitBtn = document.getElementById('welcome-submit');
+  const emailInput = document.getElementById('welcome-email');
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+  async function handleJoin() {
     successEl.hidden = true;
     errorEl.hidden = true;
 
-    const email = document.getElementById('welcome-email').value;
+    if (!emailInput.value.trim()) {
+      emailInput.reportValidity();
+      return;
+    }
+
+    const email = emailInput.value;
     submitBtn.disabled = true;
-    submitBtn.textContent = 'Joining…';
+    submitBtn.textContent = 'Joining...';
 
     try {
       const result = await saveNewsletterEmail(email);
@@ -153,9 +184,24 @@ function setupWelcomeGate() {
       submitBtn.disabled = false;
       submitBtn.textContent = 'Join';
     }
+  }
+
+  submitBtn.addEventListener('click', handleJoin);
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    handleJoin();
   });
 
   document.addEventListener('keydown', handleSecretKey);
+
+  const params = new URLSearchParams(window.location.search);
+  const emailFromUrl = params.get('email');
+  if (emailFromUrl) {
+    emailInput.value = emailFromUrl;
+    window.history.replaceState({}, '', window.location.pathname);
+    handleJoin();
+  }
 }
 
 function showPage(pageId) {
