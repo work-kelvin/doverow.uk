@@ -52,6 +52,24 @@ function goHome() {
   }
 }
 
+function bindShopItems() {
+  shopGrid.querySelectorAll('.shop-item').forEach((el) => {
+    el.addEventListener('click', () => {
+      addToCart(el.dataset.item, el.dataset.category);
+      openCart();
+    });
+  });
+}
+
+function shopItemHtml(name, category) {
+  return `
+    <div class="shop-item" data-item="${name}" data-category="${category}">
+      <div class="shop-item__icon"></div>
+      <span class="shop-item__name">${name}</span>
+    </div>
+  `;
+}
+
 function renderShop(category) {
   const items = PLACEHOLDER_ITEMS[category] || [];
   const label = CATEGORIES[category] || 'Shop';
@@ -64,23 +82,34 @@ function renderShop(category) {
     return;
   }
 
-  shopGrid.innerHTML = items
-    .map(
-      (name) => `
-    <div class="shop-item" data-item="${name}" data-category="${label}">
-      <div class="shop-item__icon"></div>
-      <span class="shop-item__name">${name}</span>
-    </div>
-  `
-    )
+  shopGrid.innerHTML = `<div class="shop-grid">${items.map((name) => shopItemHtml(name, label)).join('')}</div>`;
+  bindShopItems();
+}
+
+function renderShopAll() {
+  shopTitle.textContent = 'Shop';
+
+  let total = 0;
+  const sections = Object.keys(CATEGORIES)
+    .map((key) => {
+      const label = CATEGORIES[key];
+      const items = PLACEHOLDER_ITEMS[key] || [];
+      if (items.length === 0) return '';
+
+      total += items.length;
+      const itemsHtml = items.map((name) => shopItemHtml(name, label)).join('');
+      return `
+        <div class="shop-section">
+          <h3 class="shop-section__title">${label}</h3>
+          <div class="shop-section__grid">${itemsHtml}</div>
+        </div>
+      `;
+    })
     .join('');
 
-  shopGrid.querySelectorAll('.shop-item').forEach((el) => {
-    el.addEventListener('click', () => {
-      addToCart(el.dataset.item, el.dataset.category);
-      openCart();
-    });
-  });
+  shopItemCount.textContent = `${total} item${total !== 1 ? 's' : ''}`;
+  shopGrid.innerHTML = sections || '<p class="shop-empty">No items yet.</p>';
+  bindShopItems();
 }
 
 function addToCart(name, category) {
@@ -141,9 +170,7 @@ function handleRoute() {
     if (category && CATEGORIES[category]) {
       renderShop(category);
     } else {
-      shopTitle.textContent = 'Shop';
-      shopItemCount.textContent = '0 items';
-      shopGrid.innerHTML = '<p class="shop-empty">Select a category from the Shop menu.</p>';
+      renderShopAll();
     }
   } else if (page === 'contact') {
     showPage('contact');
@@ -162,6 +189,13 @@ menuItems.forEach((item) => {
 
 document.querySelectorAll('.dropdown a').forEach((link) => {
   link.addEventListener('click', () => closeCart());
+});
+
+document.getElementById('shop-link')?.addEventListener('click', () => {
+  closeCart();
+  requestAnimationFrame(() => {
+    document.getElementById('shop-link')?.blur();
+  });
 });
 
 document.querySelector('.menu-bar__home')?.addEventListener('click', (e) => {

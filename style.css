@@ -388,7 +388,30 @@ body {
 
 /* ── Shop ── */
 
+.shop-content {
+  width: 100%;
+}
+
 .shop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 16px;
+}
+
+.shop-section {
+  margin-bottom: 20px;
+}
+
+.shop-section__title {
+  font-family: var(--font-chicago);
+  font-size: 12px;
+  font-weight: bold;
+  padding: 4px 0 8px;
+  border-bottom: 1px solid var(--black);
+  margin-bottom: 12px;
+}
+
+.shop-section__grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
   gap: 16px;
