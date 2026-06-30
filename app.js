@@ -43,6 +43,15 @@ function showPage(pageId) {
   if (menuItem) menuItem.classList.add('menu-item--active');
 }
 
+function goHome() {
+  closeCart();
+  if (window.location.hash !== '#about' && window.location.hash !== '') {
+    window.location.hash = 'about';
+  } else {
+    showPage('about');
+  }
+}
+
 function renderShop(category) {
   const items = PLACEHOLDER_ITEMS[category] || [];
   const label = CATEGORIES[category] || 'Shop';
@@ -153,6 +162,11 @@ menuItems.forEach((item) => {
 
 document.querySelectorAll('.dropdown a').forEach((link) => {
   link.addEventListener('click', () => closeCart());
+});
+
+document.querySelector('.menu-bar__home')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  goHome();
 });
 
 cartToggle.addEventListener('click', () => {
