@@ -11,14 +11,46 @@ const CATEGORIES = {
   sides: 'Sides',
 };
 
-const PLACEHOLDER_ITEMS = {
-  uppers: ['Jacket I', 'Coat II', 'Vest III'],
-  lowers: ['Trouser I', 'Short II', 'Skirt III'],
-  middle: ['Layer I', 'Wrap II'],
-  halo: ['Crown I', 'Halo II'],
-  steppers: ['Stepper I', 'Stepper II', 'Stepper III'],
-  anys: ['Object I', 'Object II'],
-  sides: ['Side I', 'Side II', 'Side III'],
+const PRODUCTS = {
+  uppers: [
+    { name: 'Cowy Top', variants: 'multicolour' },
+    { name: 'Malawi Vest', variants: 'multi colour' },
+    { name: 'Dove Shirt', variants: 'white, okra black & grey, okra navy & black' },
+    { name: 'Only You Top', variants: 'multicolour' },
+    { name: 'Forever Sweater', variants: 'multicolour' },
+    { name: 'Wool Sweater Dove Hand Stitched Arm', variants: 'purple, deep blue' },
+    { name: 'Shy Tee', variants: 'multiple colours' },
+    { name: 'Shy Shirt', variants: 'multiple colours' },
+    { name: 'Shy Hoodie', variants: 'multiple colours' },
+  ],
+  lowers: [
+    {
+      name: 'Trim Trouser',
+      variants: 'cream, deep navy & red',
+      details: 'Back heel stitch faded. Red trimmings. Pocket flap detailing. Deep pockets done well. Slightly straight with loose sections. Upside down with cinder flap.',
+    },
+  ],
+  middle: [
+    { name: 'To Be Held', variants: 'braided blue leather' },
+    { name: 'Underalls', variants: 'pink & seamed gray' },
+  ],
+  halo: [
+    { name: 'Leather Skully', variants: 'black leather, pink leather' },
+    { name: 'Global Cap', variants: 'black leather, multicolour' },
+  ],
+  steppers: [
+    { name: 'Dove Socks', variants: 'black & turquoise blue' },
+    { name: 'Missed Connecting Socks', variants: 'pink, white & green' },
+  ],
+  anys: [
+    { name: 'Trumpet', variants: 'green' },
+    { name: 'Drum', variants: 'blue' },
+    { name: 'Triangle', variants: 'silver & pink' },
+    { name: 'Instrument Case', variants: 'cigarette or weed holder' },
+  ],
+  sides: [
+    { name: 'Less Go Bag', variants: 'black & turquoise' },
+  ],
 };
 
 let cart = [];
@@ -268,17 +300,26 @@ function bindShopItems() {
   const shopGrid = document.getElementById('shop-grid');
   shopGrid.querySelectorAll('.shop-item').forEach((el) => {
     el.addEventListener('click', () => {
-      addToCart(el.dataset.item, el.dataset.category);
+      addToCart(el.dataset.item, el.dataset.category, el.dataset.variants);
       openCart();
     });
   });
 }
 
-function shopItemHtml(name, category) {
+function shopItemHtml(product, category) {
+  const variantsHtml = product.variants
+    ? `<span class="shop-item__variants">${product.variants}</span>`
+    : '';
+  const detailsHtml = product.details
+    ? `<span class="shop-item__details">${product.details}</span>`
+    : '';
+
   return `
-    <div class="shop-item" data-item="${name}" data-category="${category}">
+    <div class="shop-item" data-item="${product.name}" data-category="${category}" data-variants="${product.variants || ''}">
       <div class="shop-item__icon"></div>
-      <span class="shop-item__name">${name}</span>
+      <span class="shop-item__name">${product.name}</span>
+      ${variantsHtml}
+      ${detailsHtml}
     </div>
   `;
 }
@@ -287,7 +328,7 @@ function renderShop(category) {
   const shopGrid = document.getElementById('shop-grid');
   const shopTitle = document.getElementById('shop-title');
   const shopItemCount = document.getElementById('shop-item-count');
-  const items = PLACEHOLDER_ITEMS[category] || [];
+  const items = PRODUCTS[category] || [];
   const label = CATEGORIES[category] || 'Shop';
 
   shopTitle.textContent = label;
@@ -298,7 +339,7 @@ function renderShop(category) {
     return;
   }
 
-  shopGrid.innerHTML = `<div class="shop-grid">${items.map((name) => shopItemHtml(name, label)).join('')}</div>`;
+  shopGrid.innerHTML = `<div class="shop-grid">${items.map((product) => shopItemHtml(product, label)).join('')}</div>`;
   bindShopItems();
 }
 
@@ -313,11 +354,11 @@ function renderShopAll() {
   const sections = Object.keys(CATEGORIES)
     .map((key) => {
       const label = CATEGORIES[key];
-      const items = PLACEHOLDER_ITEMS[key] || [];
+      const items = PRODUCTS[key] || [];
       if (items.length === 0) return '';
 
       total += items.length;
-      const itemsHtml = items.map((name) => shopItemHtml(name, label)).join('');
+      const itemsHtml = items.map((product) => shopItemHtml(product, label)).join('');
       return `
         <div class="shop-section">
           <h3 class="shop-section__title">${label}</h3>
@@ -332,8 +373,8 @@ function renderShopAll() {
   bindShopItems();
 }
 
-function addToCart(name, category) {
-  cart.push({ name, category, id: Date.now() });
+function addToCart(name, category, variants) {
+  cart.push({ name, category, variants: variants || '', id: Date.now() });
   renderCart();
 }
 
@@ -358,7 +399,7 @@ function renderCart() {
     .map(
       (item) => `
     <li class="cart-item">
-      <span>${item.name} <small>(${item.category})</small></span>
+      <span>${item.name}${item.variants ? ` <small>(${item.variants})</small>` : ''} <small>[${item.category}]</small></span>
       <button class="cart-item__remove" data-id="${item.id}">Remove</button>
     </li>
   `
