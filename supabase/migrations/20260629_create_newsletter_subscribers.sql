@@ -8,8 +8,10 @@ create table public.newsletter_subscribers (
 
 alter table public.newsletter_subscribers enable row level security;
 
+drop policy if exists "Allow anonymous newsletter signups" on public.newsletter_subscribers;
+
 create policy "Allow anonymous newsletter signups"
   on public.newsletter_subscribers
   for insert
   to anon
-  with check (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$');
+  with check (true);
