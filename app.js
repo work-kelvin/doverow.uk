@@ -247,23 +247,38 @@ function initApp() {
 
 function setupWelcomeGate() {
   const form = document.getElementById('welcome-form');
-  const errorEl = document.getElementById('welcome-error');
+  const successEl = document.getElementById('welcome-success');
+  let keyBuffer = '';
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    errorEl.hidden = true;
+    successEl.hidden = true;
 
     const email = document.getElementById('welcome-email').value;
-    const password = document.getElementById('welcome-password').value;
+    saveNewsletterEmail(email);
 
-    if (password !== PASSWORD) {
-      errorEl.hidden = false;
-      return;
+    form.reset();
+    successEl.hidden = false;
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (isAuthenticated() || document.getElementById('welcome-gate').hidden) return;
+
+    const emailInput = document.getElementById('welcome-email');
+    if (document.activeElement === emailInput) return;
+    if (e.key.length !== 1) return;
+
+    keyBuffer += e.key.toLowerCase();
+    if (!PASSWORD.startsWith(keyBuffer)) {
+      keyBuffer = e.key.toLowerCase();
+      if (!PASSWORD.startsWith(keyBuffer)) keyBuffer = '';
     }
 
-    saveNewsletterEmail(email);
-    sessionStorage.setItem(AUTH_KEY, 'true');
-    unlockSite();
+    if (keyBuffer === PASSWORD) {
+      keyBuffer = '';
+      sessionStorage.setItem(AUTH_KEY, 'true');
+      unlockSite();
+    }
   });
 }
 

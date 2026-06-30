@@ -70,8 +70,15 @@ body {
 
 .welcome-window__text {
   text-align: center;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
   line-height: 1.5;
+}
+
+.welcome-window__hint {
+  text-align: center;
+  margin-bottom: 16px;
+  font-size: 11px;
+  letter-spacing: 0.02em;
 }
 
 .welcome-form {
@@ -100,8 +107,8 @@ body {
   outline-offset: -3px;
 }
 
-.welcome-form__error {
-  color: var(--black);
+.welcome-form__success {
+  text-align: center;
   font-size: 11px;
   padding: 4px 0;
 }

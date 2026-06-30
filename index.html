@@ -13,14 +13,13 @@
       <div class="mac-window__content mac-window__content--dialog">
         <img src="assets/doverow.png" alt="" class="welcome-window__logo" width="48" height="44">
         <h1 class="dialog-title">Welcome to Doverow</h1>
-        <p class="welcome-window__text">Enter your email to join our newsletter, then enter the password to continue.</p>
+        <p class="welcome-window__text">Doverow is a label that creates personal artifacts and collectible objects.</p>
+        <p class="welcome-window__hint">ask and you shall receive</p>
         <form class="welcome-form" id="welcome-form">
-          <label class="welcome-form__label" for="welcome-email">Email</label>
-          <input class="welcome-form__input" type="email" id="welcome-email" name="email" placeholder="you@email.com" autocomplete="email">
-          <label class="welcome-form__label" for="welcome-password">Password</label>
-          <input class="welcome-form__input" type="password" id="welcome-password" name="password" placeholder="Enter password" autocomplete="current-password" required>
-          <p class="welcome-form__error" id="welcome-error" hidden>Incorrect password. Please try again.</p>
-          <button type="submit" class="mac-button">Enter</button>
+          <label class="welcome-form__label" for="welcome-email">Join our newsletter</label>
+          <input class="welcome-form__input" type="email" id="welcome-email" name="email" placeholder="you@email.com" autocomplete="email" required>
+          <p class="welcome-form__success" id="welcome-success" hidden>You're on the list.</p>
+          <button type="submit" class="mac-button">Join</button>
         </form>
       </div>
     </div>
