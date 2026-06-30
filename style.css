@@ -62,10 +62,13 @@ body {
   font-weight: bold;
 }
 
-.menu-bar__apple {
+.menu-bar__logo {
+  display: block;
+  height: 13px;
+  width: auto;
   margin-right: 12px;
-  font-size: 14px;
-  line-height: 1;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
 }
 
 .menu-bar__nav {
