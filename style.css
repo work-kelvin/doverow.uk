@@ -70,15 +70,8 @@ body {
 
 .welcome-window__text {
   text-align: center;
-  margin-bottom: 8px;
-  line-height: 1.5;
-}
-
-.welcome-window__hint {
-  text-align: center;
   margin-bottom: 16px;
-  font-size: 11px;
-  letter-spacing: 0.02em;
+  line-height: 1.5;
 }
 
 .welcome-form {
@@ -108,6 +101,12 @@ body {
 }
 
 .welcome-form__success {
+  text-align: center;
+  font-size: 11px;
+  padding: 4px 0;
+}
+
+.welcome-form__error {
   text-align: center;
   font-size: 11px;
   padding: 4px 0;

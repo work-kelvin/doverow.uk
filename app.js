@@ -1,6 +1,10 @@
 const PASSWORD = 'askandyoushallreceive';
 const AUTH_KEY = 'doverow-access';
-const NEWSLETTER_KEY = 'doverow-newsletter';
+
+const supabase = window.supabase.createClient(
+  window.SUPABASE_CONFIG.url,
+  window.SUPABASE_CONFIG.anonKey
+);
 
 const CATEGORIES = {
   uppers: 'Uppers',
@@ -222,15 +226,22 @@ function isAuthenticated() {
   return sessionStorage.getItem(AUTH_KEY) === 'true';
 }
 
-function saveNewsletterEmail(email) {
-  const trimmed = email.trim();
-  if (!trimmed) return;
+async function saveNewsletterEmail(email) {
+  const trimmed = email.trim().toLowerCase();
+  if (!trimmed) return { ok: false };
 
-  const emails = JSON.parse(localStorage.getItem(NEWSLETTER_KEY) || '[]');
-  if (!emails.includes(trimmed)) {
-    emails.push(trimmed);
-    localStorage.setItem(NEWSLETTER_KEY, JSON.stringify(emails));
+  const { error } = await supabase
+    .from('newsletter_subscribers')
+    .insert({ email: trimmed });
+
+  if (error) {
+    if (error.code === '23505') {
+      return { ok: true, alreadySubscribed: true };
+    }
+    return { ok: false, error };
   }
+
+  return { ok: true };
 }
 
 function unlockSite() {
@@ -248,16 +259,33 @@ function initApp() {
 function setupWelcomeGate() {
   const form = document.getElementById('welcome-form');
   const successEl = document.getElementById('welcome-success');
+  const errorEl = document.getElementById('welcome-error');
+  const submitBtn = document.getElementById('welcome-submit');
   let keyBuffer = '';
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     successEl.hidden = true;
+    errorEl.hidden = true;
 
     const email = document.getElementById('welcome-email').value;
-    saveNewsletterEmail(email);
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Joining…';
+
+    const result = await saveNewsletterEmail(email);
+
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Join';
+
+    if (!result.ok) {
+      errorEl.hidden = false;
+      return;
+    }
 
     form.reset();
+    successEl.textContent = result.alreadySubscribed
+      ? "You're already on the list."
+      : "You're on the list.";
     successEl.hidden = false;
   });
 
