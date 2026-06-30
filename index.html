@@ -9,7 +9,39 @@
 <body>
   <!-- Welcome gate -->
   <div class="welcome-gate" id="welcome-gate">
-    <div class="mac-window mac-window--centered mac-window--dialog welcome-window">
+    <header class="welcome-menu-bar">
+      <img src="assets/doverow.png" alt="" class="welcome-menu-bar__logo" width="20" height="18">
+      <button type="button" class="welcome-menu-bar__item" id="password-toggle">password</button>
+    </header>
+
+    <div class="password-dialog" id="password-dialog" hidden>
+      <div class="mac-window mac-window--centered mac-window--dialog password-window">
+        <div class="mac-window__titlebar">
+          <span class="mac-window__close" id="password-close"></span>
+          <span class="mac-window__title">Password</span>
+          <span class="mac-window__zoom"></span>
+        </div>
+        <div class="mac-window__content mac-window__content--dialog">
+          <form class="welcome-form" id="password-form" method="post" action="#">
+            <label class="welcome-form__label" for="password-input">Enter password</label>
+            <input class="welcome-form__input" type="password" id="password-input" name="password" autocomplete="current-password" required>
+            <p class="welcome-form__error" id="password-error" hidden>Incorrect password.</p>
+            <div class="password-window__actions">
+              <button type="button" class="mac-button" id="password-submit">OK</button>
+              <button type="button" class="mac-button mac-button--plain" id="password-cancel">Cancel</button>
+            </div>
+          </form>
+          <script>
+            document.getElementById('password-form').addEventListener('submit', function (e) {
+              e.preventDefault();
+            }, true);
+          </script>
+        </div>
+      </div>
+    </div>
+
+    <div class="welcome-gate__main">
+      <div class="mac-window mac-window--centered mac-window--dialog welcome-window">
       <div class="mac-window__content mac-window__content--dialog">
         <img src="assets/doverow.png" alt="" class="welcome-window__logo" width="48" height="44">
         <h1 class="dialog-title">Welcome to Doverow</h1>
@@ -27,6 +59,7 @@
           }, true);
         </script>
       </div>
+    </div>
     </div>
   </div>
 

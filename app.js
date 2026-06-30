@@ -1,4 +1,4 @@
-const PASSWORD = 'askandyoushallreceive';
+const PASSWORD = 'askandyeshallreceive';
 const AUTH_KEY = 'doverow-access';
 
 const CATEGORIES = {
@@ -25,8 +25,6 @@ let cart = [];
 let supabaseClient = null;
 let supabaseLoading = null;
 let appInitialized = false;
-let keyBuffer = '';
-let keyBufferTimer = null;
 
 function loadSupabaseScript() {
   if (window.supabase?.createClient) {
@@ -72,9 +70,35 @@ function isAuthenticated() {
   return sessionStorage.getItem(AUTH_KEY) === 'true';
 }
 
-function isWelcomeVisible() {
-  const gate = document.getElementById('welcome-gate');
-  return gate && !gate.hidden;
+function openPasswordDialog() {
+  const dialog = document.getElementById('password-dialog');
+  const input = document.getElementById('password-input');
+  const errorEl = document.getElementById('password-error');
+
+  errorEl.hidden = true;
+  input.value = '';
+  dialog.hidden = false;
+  input.focus();
+}
+
+function closePasswordDialog() {
+  const dialog = document.getElementById('password-dialog');
+  const errorEl = document.getElementById('password-error');
+
+  dialog.hidden = true;
+  errorEl.hidden = true;
+  document.getElementById('password-input').value = '';
+}
+
+function tryUnlockSite(password) {
+  if (password !== PASSWORD) {
+    return false;
+  }
+
+  sessionStorage.setItem(AUTH_KEY, 'true');
+  closePasswordDialog();
+  unlockSite();
+  return true;
 }
 
 async function saveNewsletterEmail(email) {
@@ -114,42 +138,20 @@ function unlockSite() {
   initApp();
 }
 
-function resetKeyBuffer() {
-  keyBuffer = '';
-  if (keyBufferTimer) {
-    clearTimeout(keyBufferTimer);
-    keyBufferTimer = null;
-  }
-}
-
-function handleSecretKey(e) {
-  if (!isWelcomeVisible() || isAuthenticated()) return;
-  if (e.ctrlKey || e.metaKey || e.altKey) return;
-  if (e.key.length !== 1) return;
-
-  keyBuffer += e.key.toLowerCase();
-
-  if (!PASSWORD.startsWith(keyBuffer)) {
-    keyBuffer = e.key.toLowerCase();
-    if (!PASSWORD.startsWith(keyBuffer)) keyBuffer = '';
-  }
-
-  clearTimeout(keyBufferTimer);
-  keyBufferTimer = setTimeout(resetKeyBuffer, 3000);
-
-  if (keyBuffer === PASSWORD) {
-    resetKeyBuffer();
-    sessionStorage.setItem(AUTH_KEY, 'true');
-    unlockSite();
-  }
-}
-
 function setupWelcomeGate() {
   const form = document.getElementById('welcome-form');
   const successEl = document.getElementById('welcome-success');
   const errorEl = document.getElementById('welcome-error');
   const submitBtn = document.getElementById('welcome-submit');
   const emailInput = document.getElementById('welcome-email');
+  const passwordToggle = document.getElementById('password-toggle');
+  const passwordDialog = document.getElementById('password-dialog');
+  const passwordForm = document.getElementById('password-form');
+  const passwordInput = document.getElementById('password-input');
+  const passwordError = document.getElementById('password-error');
+  const passwordSubmit = document.getElementById('password-submit');
+  const passwordCancel = document.getElementById('password-cancel');
+  const passwordClose = document.getElementById('password-close');
 
   async function handleJoin() {
     successEl.hidden = true;
@@ -193,7 +195,36 @@ function setupWelcomeGate() {
     handleJoin();
   });
 
-  document.addEventListener('keydown', handleSecretKey);
+  passwordToggle.addEventListener('click', openPasswordDialog);
+  passwordCancel.addEventListener('click', closePasswordDialog);
+  passwordClose.addEventListener('click', closePasswordDialog);
+
+  function handlePasswordSubmit() {
+    passwordError.hidden = true;
+
+    if (!passwordInput.value) {
+      passwordInput.reportValidity();
+      return;
+    }
+
+    if (!tryUnlockSite(passwordInput.value)) {
+      passwordError.hidden = false;
+      passwordInput.select();
+    }
+  }
+
+  passwordSubmit.addEventListener('click', handlePasswordSubmit);
+
+  passwordForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    handlePasswordSubmit();
+  });
+
+  passwordDialog.addEventListener('click', (e) => {
+    if (e.target === passwordDialog) {
+      closePasswordDialog();
+    }
+  });
 
   const params = new URLSearchParams(window.location.search);
   const emailFromUrl = params.get('email');
