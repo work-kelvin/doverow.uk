@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doverow</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="menu-bar">
+    <span class="menu-bar__apple" aria-hidden="true">&#63743;</span>
+    <nav class="menu-bar__nav">
+      <a href="#about" class="menu-item" data-page="about">About</a>
+      <div class="menu-item menu-item--dropdown">
+        <a href="#shop" class="menu-item__link" data-page="shop">Shop</a>
+        <ul class="dropdown">
+          <li><a href="#shop/uppers" data-category="uppers">Uppers</a></li>
+          <li><a href="#shop/lowers" data-category="lowers">Lowers</a></li>
+          <li><a href="#shop/middle" data-category="middle">Middle</a></li>
+          <li><a href="#shop/halo" data-category="halo">Halo</a></li>
+          <li><a href="#shop/steppers" data-category="steppers">Steppers</a></li>
+          <li><a href="#shop/anys" data-category="anys">Anys</a></li>
+          <li><a href="#shop/sides" data-category="sides">Sides</a></li>
+        </ul>
+      </div>
+      <button type="button" class="menu-item menu-item--button" id="cart-toggle">Cart</button>
+      <a href="#contact" class="menu-item" data-page="contact">Contact</a>
+    </nav>
+  </header>
+
+  <main class="desktop">
+    <!-- About -->
+    <section id="page-about" class="page page--active">
+      <div class="mac-window mac-window--centered">
+        <div class="mac-window__titlebar">
+          <span class="mac-window__close"></span>
+          <span class="mac-window__title">About Doverow</span>
+          <span class="mac-window__zoom"></span>
+        </div>
+        <div class="mac-window__content">
+          <p class="about-text">Doverow is a label that creates personal artifacts and collectible objects.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Shop -->
+    <section id="page-shop" class="page">
+      <div class="mac-window mac-window--shop">
+        <div class="mac-window__titlebar">
+          <span class="mac-window__close"></span>
+          <span class="mac-window__title" id="shop-title">Shop</span>
+          <span class="mac-window__zoom"></span>
+        </div>
+        <div class="mac-window__infobar">
+          <span id="shop-item-count">0 items</span>
+        </div>
+        <div class="mac-window__content mac-window__content--scroll">
+          <div class="shop-grid" id="shop-grid">
+            <p class="shop-empty">Select a category from the Shop menu.</p>
+          </div>
+        </div>
+        <div class="mac-scrollbar mac-scrollbar--vertical">
+          <button class="mac-scrollbar__arrow mac-scrollbar__arrow--up" type="button" aria-hidden="true"></button>
+          <div class="mac-scrollbar__track"><div class="mac-scrollbar__thumb"></div></div>
+          <button class="mac-scrollbar__arrow mac-scrollbar__arrow--down" type="button" aria-hidden="true"></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="page-contact" class="page">
+      <div class="mac-window mac-window--centered mac-window--dialog">
+        <div class="mac-window__content mac-window__content--dialog">
+          <h2 class="dialog-title">Contact</h2>
+          <ul class="contact-list">
+            <li>
+              <span class="contact-label">Instagram:</span>
+              <a href="https://instagram.com/lovedoverow" target="_blank" rel="noopener">@lovedoverow</a>
+            </li>
+            <li>
+              <span class="contact-label">Instagram:</span>
+              <a href="https://instagram.com/sea___ofdesires" target="_blank" rel="noopener">@sea___ofdesires</a>
+            </li>
+            <li>
+              <span class="contact-label">Email:</span>
+              <a href="mailto:love@doverow.uk">love@doverow.uk</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Cart overlay -->
+  <aside class="cart-panel" id="cart-panel" aria-hidden="true">
+    <div class="mac-window mac-window--cart">
+      <div class="mac-window__titlebar">
+        <span class="mac-window__close" id="cart-close"></span>
+        <span class="mac-window__title">Cart</span>
+        <span class="mac-window__zoom"></span>
+      </div>
+      <div class="mac-window__infobar">
+        <span id="cart-count">0 items</span>
+      </div>
+      <div class="mac-window__content mac-window__content--scroll">
+        <ul class="cart-list" id="cart-list">
+          <li class="cart-empty">Your cart is empty.</li>
+        </ul>
+      </div>
+      <div class="mac-scrollbar mac-scrollbar--vertical">
+        <button class="mac-scrollbar__arrow mac-scrollbar__arrow--up" type="button" aria-hidden="true"></button>
+        <div class="mac-scrollbar__track"><div class="mac-scrollbar__thumb"></div></div>
+        <button class="mac-scrollbar__arrow mac-scrollbar__arrow--down" type="button" aria-hidden="true"></button>
+      </div>
+    </div>
+  </aside>
+
+  <div class="cart-backdrop" id="cart-backdrop" hidden></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
