@@ -1,3 +1,7 @@
+const PASSWORD = 'askandyoushallreceive';
+const AUTH_KEY = 'doverow-access';
+const NEWSLETTER_KEY = 'doverow-newsletter';
+
 const CATEGORIES = {
   uppers: 'Uppers',
   lowers: 'Lowers',
@@ -214,6 +218,57 @@ cartToggle.addEventListener('click', () => {
 cartClose.addEventListener('click', closeCart);
 cartBackdrop.addEventListener('click', closeCart);
 
-window.addEventListener('hashchange', handleRoute);
-handleRoute();
-renderCart();
+function isAuthenticated() {
+  return sessionStorage.getItem(AUTH_KEY) === 'true';
+}
+
+function saveNewsletterEmail(email) {
+  const trimmed = email.trim();
+  if (!trimmed) return;
+
+  const emails = JSON.parse(localStorage.getItem(NEWSLETTER_KEY) || '[]');
+  if (!emails.includes(trimmed)) {
+    emails.push(trimmed);
+    localStorage.setItem(NEWSLETTER_KEY, JSON.stringify(emails));
+  }
+}
+
+function unlockSite() {
+  document.getElementById('welcome-gate').hidden = true;
+  document.getElementById('site-content').hidden = false;
+  initApp();
+}
+
+function initApp() {
+  window.addEventListener('hashchange', handleRoute);
+  handleRoute();
+  renderCart();
+}
+
+function setupWelcomeGate() {
+  const form = document.getElementById('welcome-form');
+  const errorEl = document.getElementById('welcome-error');
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    errorEl.hidden = true;
+
+    const email = document.getElementById('welcome-email').value;
+    const password = document.getElementById('welcome-password').value;
+
+    if (password !== PASSWORD) {
+      errorEl.hidden = false;
+      return;
+    }
+
+    saveNewsletterEmail(email);
+    sessionStorage.setItem(AUTH_KEY, 'true');
+    unlockSite();
+  });
+}
+
+if (isAuthenticated()) {
+  unlockSite();
+} else {
+  setupWelcomeGate();
+}

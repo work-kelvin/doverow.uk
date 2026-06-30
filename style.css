@@ -43,6 +43,86 @@ body {
   image-rendering: pixelated;
 }
 
+/* ── Welcome Gate ── */
+
+.welcome-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.welcome-window {
+  max-width: 360px;
+  width: 90%;
+}
+
+.welcome-window__logo {
+  display: block;
+  margin: 0 auto 12px;
+  height: 44px;
+  width: auto;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.welcome-window__text {
+  text-align: center;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.welcome-form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.welcome-form__label {
+  font-weight: bold;
+  margin-top: 4px;
+}
+
+.welcome-form__input {
+  width: 100%;
+  padding: 4px 6px;
+  border: 1px solid var(--black);
+  background: var(--white);
+  font-family: var(--font-geneva);
+  font-size: 12px;
+  color: var(--black);
+}
+
+.welcome-form__input:focus {
+  outline: 1px dotted var(--black);
+  outline-offset: -3px;
+}
+
+.welcome-form__error {
+  color: var(--black);
+  font-size: 11px;
+  padding: 4px 0;
+}
+
+.mac-button {
+  align-self: center;
+  margin-top: 12px;
+  padding: 4px 24px;
+  background: var(--white);
+  border: 1px solid var(--black);
+  font-family: var(--font-geneva);
+  font-size: 12px;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 var(--black);
+}
+
+.mac-button:active {
+  box-shadow: none;
+  transform: translate(2px, 2px);
+}
+
 /* ── Menu Bar ── */
 
 .menu-bar {

@@ -7,6 +7,26 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Welcome gate -->
+  <div class="welcome-gate" id="welcome-gate">
+    <div class="mac-window mac-window--centered mac-window--dialog welcome-window">
+      <div class="mac-window__content mac-window__content--dialog">
+        <img src="assets/doverow.png" alt="" class="welcome-window__logo" width="48" height="44">
+        <h1 class="dialog-title">Welcome to Doverow</h1>
+        <p class="welcome-window__text">Enter your email to join our newsletter, then enter the password to continue.</p>
+        <form class="welcome-form" id="welcome-form">
+          <label class="welcome-form__label" for="welcome-email">Email</label>
+          <input class="welcome-form__input" type="email" id="welcome-email" name="email" placeholder="you@email.com" autocomplete="email">
+          <label class="welcome-form__label" for="welcome-password">Password</label>
+          <input class="welcome-form__input" type="password" id="welcome-password" name="password" placeholder="Enter password" autocomplete="current-password" required>
+          <p class="welcome-form__error" id="welcome-error" hidden>Incorrect password. Please try again.</p>
+          <button type="submit" class="mac-button">Enter</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div id="site-content" hidden>
   <header class="menu-bar">
     <a href="#about" class="menu-bar__home" aria-label="Home">
       <img src="assets/doverow.png" alt="" class="menu-bar__logo" width="20" height="18">
@@ -118,6 +138,7 @@
   </aside>
 
   <div class="cart-backdrop" id="cart-backdrop" hidden></div>
+  </div>
 
   <script src="app.js"></script>
 </body>
