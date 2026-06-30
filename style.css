@@ -53,6 +53,11 @@ body {
   flex-direction: column;
 }
 
+.welcome-gate[hidden],
+#site-content[hidden] {
+  display: none !important;
+}
+
 .welcome-menu-bar {
   display: flex;
   align-items: center;

@@ -1,4 +1,4 @@
-const PASSWORD = 'askandyeshallreceive';
+const PASSWORDS = ['askandyeshallreceive', 'askandyoushallreceive'];
 const AUTH_KEY = 'doverow-access';
 
 const CATEGORIES = {
@@ -91,7 +91,8 @@ function closePasswordDialog() {
 }
 
 function tryUnlockSite(password) {
-  if (password !== PASSWORD) {
+  const normalized = password.trim().toLowerCase();
+  if (!PASSWORDS.includes(normalized)) {
     return false;
   }
 
@@ -133,8 +134,13 @@ async function saveNewsletterEmail(email) {
 }
 
 function unlockSite() {
-  document.getElementById('welcome-gate').hidden = true;
-  document.getElementById('site-content').hidden = false;
+  const gate = document.getElementById('welcome-gate');
+  const site = document.getElementById('site-content');
+
+  gate.hidden = true;
+  site.hidden = false;
+  gate.setAttribute('aria-hidden', 'true');
+  site.removeAttribute('aria-hidden');
   initApp();
 }
 
@@ -449,8 +455,10 @@ function initApp() {
 }
 
 if (isAuthenticated()) {
-  document.getElementById('welcome-gate').hidden = true;
-  document.getElementById('site-content').hidden = false;
+  const gate = document.getElementById('welcome-gate');
+  const site = document.getElementById('site-content');
+  gate.hidden = true;
+  site.hidden = false;
   initApp();
 } else {
   setupWelcomeGate();
