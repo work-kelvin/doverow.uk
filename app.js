@@ -1,6 +1,6 @@
 const PASSWORDS = ['askandyeshallreceive', 'askandyoushallreceive'];
 const AUTH_KEY = 'doverow-access';
-const SPLASH_INTERVAL_MS = 100;
+const SPLASH_INTERVAL_MS = 180;
 
 const SPLASH_IMAGES = [
   'assets/Website-01.png',
