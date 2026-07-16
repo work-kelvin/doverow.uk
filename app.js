@@ -1,5 +1,16 @@
 const PASSWORDS = ['askandyeshallreceive', 'askandyoushallreceive'];
 const AUTH_KEY = 'doverow-access';
+const SPLASH_INTERVAL_MS = 260;
+
+const SPLASH_IMAGES = [
+  'assets/Website-01.png',
+  'assets/Website-02.png',
+  'assets/Website-03.png',
+  'assets/Website-04.png',
+  'assets/Website-05.png',
+  'assets/Website-06.png',
+  'assets/Website-07.png',
+];
 
 const CATEGORIES = {
   uppers: 'Uppers',
@@ -57,6 +68,35 @@ let cart = [];
 let supabaseClient = null;
 let supabaseLoading = null;
 let appInitialized = false;
+let splashTimer = null;
+
+function setupEntrySplash() {
+  const splash = document.getElementById('entry-splash');
+  const splashImage = document.getElementById('entry-splash-image');
+  if (!splash || !splashImage) return;
+
+  SPLASH_IMAGES.forEach((src) => {
+    const img = new Image();
+    img.src = src;
+  });
+
+  let imageIndex = 0;
+  splashTimer = setInterval(() => {
+    imageIndex = (imageIndex + 1) % SPLASH_IMAGES.length;
+    splashImage.src = SPLASH_IMAGES[imageIndex];
+  }, SPLASH_INTERVAL_MS);
+
+  function dismissSplash() {
+    if (splashTimer) {
+      clearInterval(splashTimer);
+      splashTimer = null;
+    }
+    splash.hidden = true;
+  }
+
+  splash.addEventListener('click', dismissSplash);
+  splash.focus();
+}
 
 function loadSupabaseScript() {
   if (window.supabase?.createClient) {
@@ -494,6 +534,8 @@ function initApp() {
   handleRoute();
   renderCart();
 }
+
+setupEntrySplash();
 
 if (isAuthenticated()) {
   const gate = document.getElementById('welcome-gate');
