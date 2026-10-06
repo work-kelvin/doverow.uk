@@ -1,0 +1,36 @@
+{%- liquid
+  assign card_alt = product.featured_media.alt | default: product.title
+  if product.price_varies
+    assign price_min_money = product.price_min | money
+  endif
+-%}
+
+<a class="product-card" href="{{ product.url }}">
+  <div class="product-card__media">
+    {%- if product.featured_media -%}
+      {{
+        product.featured_media
+        | image_url: width: 900
+        | image_tag:
+          loading: 'lazy',
+          widths: '360, 540, 720, 900',
+          sizes: '(min-width: 900px) 30vw, 45vw',
+          alt: card_alt
+      }}
+    {%- else -%}
+      <div class="product-card__placeholder">
+        <img src="{{ 'doverow.png' | asset_url }}" width="80" height="72" alt="">
+      </div>
+    {%- endif -%}
+  </div>
+  <div class="product-card__meta">
+    <span class="product-card__title">{{ product.title }}</span>
+    <span class="product-card__price">
+      {%- if product.price_varies -%}
+        {{ 'products.price.from' | t: price: price_min_money }}
+      {%- else -%}
+        {{ product.price | money }}
+      {%- endif -%}
+    </span>
+  </div>
+</a>

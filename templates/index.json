@@ -1,0 +1,23 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "heading": "Doverow",
+        "text": "Personal artifacts and collectible objects.",
+        "button_label": "Shop",
+        "button_link": "/collections",
+        "secondary_label": "About",
+        "secondary_link": "/pages/about"
+      }
+    },
+    "featured": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "Shop",
+        "products_to_show": 6
+      }
+    }
+  },
+  "order": ["hero", "featured"]
+}

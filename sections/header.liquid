@@ -1,0 +1,96 @@
+<header class="site-header" data-header>
+  <div class="page-width site-header__inner">
+    <a class="site-header__brand" href="{{ routes.root_url }}">
+      {%- if settings.logo != blank -%}
+        {{
+          settings.logo
+          | image_url: width: settings.logo_width
+          | image_tag:
+            class: 'site-header__mark',
+            widths: '36, 72, 108',
+            alt: shop.name
+        }}
+      {%- else -%}
+        <img
+          class="site-header__mark"
+          src="{{ 'doverow.png' | asset_url }}"
+          width="{{ settings.logo_width }}"
+          height="{{ settings.logo_width | times: 0.9 | round }}"
+          alt="{{ shop.name }}"
+          style="--logo-width: {{ settings.logo_width }}px; width: {{ settings.logo_width }}px;"
+        >
+      {%- endif -%}
+      <span class="site-header__name">{{ shop.name }}</span>
+    </a>
+
+    {%- if section.settings.menu != blank -%}
+      <nav class="site-header__nav" aria-label="Primary">
+        {%- for link in section.settings.menu.links -%}
+          <a href="{{ link.url }}" {% if link.active %}aria-current="page"{% endif %}>
+            {{ link.title }}
+          </a>
+        {%- endfor -%}
+      </nav>
+    {%- endif -%}
+
+    <div class="site-header__actions">
+      {%- if settings.cart_drawer_enabled -%}
+        <button
+          type="button"
+          class="site-header__cart"
+          data-cart-open
+          aria-haspopup="dialog"
+          aria-controls="CartDrawer"
+        >
+          {% render 'icon-cart' %}
+          <span>{{ 'accessibility.cart' | t }}</span>
+          <span class="site-header__cart-count" data-cart-count>{{ cart.item_count }}</span>
+        </button>
+      {%- else -%}
+        <a class="site-header__cart" href="{{ routes.cart_url }}">
+          {% render 'icon-cart' %}
+          <span>{{ 'accessibility.cart' | t }}</span>
+          <span class="site-header__cart-count" data-cart-count>{{ cart.item_count }}</span>
+        </a>
+      {%- endif -%}
+
+      <button
+        type="button"
+        class="menu-toggle"
+        data-menu-toggle
+        aria-expanded="false"
+        aria-controls="MobileNav"
+        aria-label="{{ 'accessibility.menu' | t }}"
+      >
+        <svg width="22" height="16" viewBox="0 0 22 16" fill="none" aria-hidden="true">
+          <path d="M0 1h22M0 8h22M0 15h22" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  {%- if section.settings.menu != blank -%}
+    <div class="mobile-nav" id="MobileNav" data-mobile-nav>
+      <div class="page-width">
+        {%- for link in section.settings.menu.links -%}
+          <a href="{{ link.url }}">{{ link.title }}</a>
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "class": "section-header",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    }
+  ]
+}
+{% endschema %}

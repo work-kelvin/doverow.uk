@@ -1,0 +1,100 @@
+<footer class="site-footer">
+  <div class="page-width site-footer__grid">
+    <div class="site-footer__brand">
+      <img
+        class="site-footer__mark"
+        src="{{ 'doverow.png' | asset_url }}"
+        width="40"
+        height="36"
+        alt=""
+      >
+      <p>{{ shop.name }}</p>
+      <p class="newsletter__text">{{ shop.description | default: 'Personal artifacts and collectible objects.' }}</p>
+    </div>
+
+    <div>
+      <h2 class="site-footer__heading">Explore</h2>
+      <nav class="site-footer__links" aria-label="Footer">
+        {%- if section.settings.menu != blank -%}
+          {%- for link in section.settings.menu.links -%}
+            <a href="{{ link.url }}">{{ link.title }}</a>
+          {%- endfor -%}
+        {%- else -%}
+          <a href="{{ routes.root_url }}">Home</a>
+          <a href="{{ routes.all_products_collection_url }}">Shop</a>
+        {%- endif -%}
+      </nav>
+    </div>
+
+    {%- if section.settings.show_newsletter -%}
+      <div class="newsletter">
+        <h2 class="site-footer__heading">{{ section.settings.newsletter_heading }}</h2>
+        {%- if section.settings.newsletter_text != blank -%}
+          <p class="newsletter__text">{{ section.settings.newsletter_text }}</p>
+        {%- endif -%}
+
+        {% form 'customer', class: 'newsletter__form' %}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <label class="visually-hidden" for="NewsletterEmail-{{ section.id }}">
+            {{ 'newsletter.label' | t }}
+          </label>
+          <div class="newsletter__fields">
+            <input
+              id="NewsletterEmail-{{ section.id }}"
+              type="email"
+              name="contact[email]"
+              value="{{ form.email }}"
+              placeholder="{{ 'newsletter.placeholder' | t }}"
+              autocomplete="email"
+              required
+            >
+            <button type="submit" class="button">{{ 'newsletter.button' | t }}</button>
+          </div>
+          {%- if form.posted_successfully? -%}
+            <p class="newsletter__success" tabindex="-1" autofocus>{{ 'newsletter.success' | t }}</p>
+          {%- endif -%}
+          {%- if form.errors -%}
+            <p class="newsletter__error">{{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}</p>
+          {%- endif -%}
+        {% endform %}
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="page-width site-footer__legal">
+    &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "class": "section-footer",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "footer"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_newsletter",
+      "label": "Show newsletter signup",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "newsletter_heading",
+      "label": "Newsletter heading",
+      "default": "Join the list"
+    },
+    {
+      "type": "textarea",
+      "id": "newsletter_text",
+      "label": "Newsletter text",
+      "default": "New drops and studio notes."
+    }
+  ]
+}
+{% endschema %}

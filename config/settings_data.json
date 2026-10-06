@@ -1,0 +1,12 @@
+{
+  "current": {
+    "color_background": "#F0F0F0",
+    "color_text": "#0A0A0A",
+    "color_muted": "#5A5A5A",
+    "color_border": "#C8C8C8",
+    "color_accent": "#0A0A0A",
+    "color_accent_text": "#F0F0F0",
+    "logo_width": 36,
+    "cart_drawer_enabled": true
+  }
+}
