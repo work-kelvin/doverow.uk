@@ -1,0 +1,12 @@
+{
+  "sections": {
+    "main": {
+      "type": "rich-text",
+      "settings": {
+        "heading": "About",
+        "text": "<p>Doverow is a label that creates personal artifacts and collectible objects.</p>"
+      }
+    }
+  },
+  "order": ["main"]
+}

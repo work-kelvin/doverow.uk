@@ -1,0 +1,120 @@
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+
+<section class="page-width product" data-product-section>
+  <div class="product__media">
+    {%- if product.selected_or_first_available_variant.featured_media -%}
+      {%- assign featured = product.selected_or_first_available_variant.featured_media -%}
+    {%- else -%}
+      {%- assign featured = product.featured_media -%}
+    {%- endif -%}
+
+    {%- if featured -%}
+      {%- assign featured_alt = featured.alt | default: product.title -%}
+      {{
+        featured
+        | image_url: width: 1600
+        | image_tag:
+          loading: 'eager',
+          widths: '600, 900, 1200, 1600',
+          sizes: '(min-width: 900px) 50vw, 100vw',
+          alt: featured_alt,
+          id: 'ProductImage'
+      }}
+    {%- else -%}
+      <div class="product-card__placeholder" style="height: 100%;">
+        <img src="{{ 'doverow.png' | asset_url }}" width="120" height="108" alt="">
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="product__info">
+    <h1 class="product__title">{{ product.title }}</h1>
+
+    <div class="product__price" data-product-price>
+      <span data-price>{{ current_variant.price | money }}</span>
+      <span
+        class="price--compare"
+        data-compare-price
+        {% unless current_variant.compare_at_price > current_variant.price %}hidden{% endunless %}
+      >
+        <span class="visually-hidden">{{ 'products.price.regular' | t }}</span>
+        <span data-compare-price-value>
+          {%- if current_variant.compare_at_price > current_variant.price -%}
+            {{ current_variant.compare_at_price | money }}
+          {%- endif -%}
+        </span>
+      </span>
+    </div>
+
+    {%- if product.description != blank -%}
+      <div class="product__description">
+        {{ product.description }}
+      </div>
+    {%- endif -%}
+
+    {% form 'product', product, id: 'ProductForm', class: 'product-form', data-product-form: '' %}
+      <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
+
+      {%- unless product.has_only_default_variant -%}
+        {%- for option in product.options_with_values -%}
+          <div class="product-form__option">
+            <label for="Option-{{ section.id }}-{{ forloop.index0 }}">{{ option.name }}</label>
+            <select
+              id="Option-{{ section.id }}-{{ forloop.index0 }}"
+              name="options[{{ option.name | escape }}]"
+              data-option-select
+              data-index="{{ forloop.index0 }}"
+            >
+              {%- for value in option.values -%}
+                <option
+                  value="{{ value | escape }}"
+                  {% if option.selected_value == value %}selected{% endif %}
+                >
+                  {{ value }}
+                </option>
+              {%- endfor -%}
+            </select>
+          </div>
+        {%- endfor -%}
+      {%- endunless -%}
+
+      <div class="product-form__quantity">
+        <label for="Quantity-{{ section.id }}">{{ 'cart.quantity' | t }}</label>
+        <input
+          id="Quantity-{{ section.id }}"
+          type="number"
+          name="quantity"
+          value="1"
+          min="1"
+          inputmode="numeric"
+        >
+      </div>
+
+      <button
+        type="submit"
+        class="button"
+        data-add-to-cart
+        {% unless current_variant.available %}disabled{% endunless %}
+      >
+        {%- if current_variant.available -%}
+          {{ 'products.add_to_cart' | t }}
+        {%- else -%}
+          {{ 'general.sold_out' | t }}
+        {%- endif -%}
+      </button>
+    {% endform %}
+  </div>
+</section>
+
+<script type="application/json" data-product-json>
+  {{ product | json }}
+</script>
+
+{% schema %}
+{
+  "name": "Product information",
+  "tag": "section",
+  "class": "section-product-main",
+  "settings": []
+}
+{% endschema %}

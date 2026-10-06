@@ -1,0 +1,16 @@
+{
+  "type": "footer",
+  "name": "Footer group",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "settings": {
+        "menu": "footer",
+        "show_newsletter": true,
+        "newsletter_heading": "Join the list",
+        "newsletter_text": "New drops and studio notes."
+      }
+    }
+  },
+  "order": ["footer"]
+}

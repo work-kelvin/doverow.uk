@@ -1,0 +1,6 @@
+archive/
+.git/
+.DS_Store
+README.md
+docs/
+*.md

@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "contact",
+      "settings": {
+        "heading": "Contact",
+        "text": "<p>For orders, press, and studio notes.</p>",
+        "instagram_primary": "lovedoverow",
+        "instagram_secondary": "sea___ofdesires",
+        "email": "love@doverow.uk"
+      }
+    }
+  },
+  "order": ["main"]
+}

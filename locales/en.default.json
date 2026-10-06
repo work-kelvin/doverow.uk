@@ -1,0 +1,57 @@
+{
+  "general": {
+    "shop_now": "Shop",
+    "continue_shopping": "Continue shopping",
+    "sold_out": "Sold out",
+    "unavailable": "Unavailable"
+  },
+  "accessibility": {
+    "skip_to_content": "Skip to content",
+    "close": "Close",
+    "cart": "Cart",
+    "menu": "Menu"
+  },
+  "header": {
+    "cart_count": {
+      "one": "{{ count }} item",
+      "other": "{{ count }} items"
+    }
+  },
+  "cart": {
+    "title": "Cart",
+    "empty": "Your cart is empty.",
+    "checkout": "Checkout",
+    "subtotal": "Subtotal",
+    "remove": "Remove",
+    "quantity": "Quantity",
+    "view_cart": "View cart",
+    "taxes_note": "Taxes and shipping calculated at checkout."
+  },
+  "products": {
+    "add_to_cart": "Add to cart",
+    "adding": "Adding…",
+    "added": "Added",
+    "price": {
+      "from": "From {{ price }}",
+      "sale": "Sale",
+      "regular": "Regular price"
+    }
+  },
+  "collections": {
+    "empty": "No products in this collection yet.",
+    "product_count": {
+      "one": "{{ count }} piece",
+      "other": "{{ count }} pieces"
+    }
+  },
+  "newsletter": {
+    "label": "Email",
+    "placeholder": "you@email.com",
+    "button": "Join",
+    "success": "You're on the list."
+  },
+  "contact": {
+    "instagram": "Instagram",
+    "email": "Email"
+  }
+}

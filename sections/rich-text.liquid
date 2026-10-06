@@ -1,0 +1,41 @@
+<section class="rich-text">
+  <div class="page-width">
+    <div class="rich-text__inner">
+      {%- if section.settings.heading != blank -%}
+        <h1 class="rich-text__title">{{ section.settings.heading }}</h1>
+      {%- endif -%}
+      {%- if section.settings.text != blank -%}
+        <div class="rich-text__body">
+          {{ section.settings.text }}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Rich text",
+  "tag": "section",
+  "class": "section-rich-text",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "About"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Doverow is a label that creates personal artifacts and collectible objects.</p>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Rich text"
+    }
+  ]
+}
+{% endschema %}

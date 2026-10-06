@@ -1,0 +1,12 @@
+{
+  "sections": {
+    "main": {
+      "type": "list-collections",
+      "settings": {
+        "heading": "Shop",
+        "text": "Browse by category."
+      }
+    }
+  },
+  "order": ["main"]
+}

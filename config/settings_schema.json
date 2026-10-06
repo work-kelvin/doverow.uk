@@ -1,0 +1,87 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Doverow",
+    "theme_version": "1.0.0",
+    "theme_author": "Doverow",
+    "theme_documentation_url": "https://github.com/work-kelvin/doverow.uk",
+    "theme_support_url": "mailto:love@doverow.uk"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "Background",
+        "default": "#F0F0F0"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Text",
+        "default": "#0A0A0A"
+      },
+      {
+        "type": "color",
+        "id": "color_muted",
+        "label": "Muted text",
+        "default": "#5A5A5A"
+      },
+      {
+        "type": "color",
+        "id": "color_border",
+        "label": "Border",
+        "default": "#C8C8C8"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Accent / buttons",
+        "default": "#0A0A0A"
+      },
+      {
+        "type": "color",
+        "id": "color_accent_text",
+        "label": "Accent text",
+        "default": "#F0F0F0"
+      }
+    ]
+  },
+  {
+    "name": "Brand",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo"
+      },
+      {
+        "type": "range",
+        "id": "logo_width",
+        "min": 24,
+        "max": 120,
+        "step": 2,
+        "unit": "px",
+        "label": "Logo width",
+        "default": 36
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon"
+      }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "cart_drawer_enabled",
+        "label": "Enable cart drawer",
+        "default": true
+      }
+    ]
+  }
+]

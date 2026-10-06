@@ -1,0 +1,60 @@
+<section class="collection-banner">
+  <div class="page-width">
+    <h1 class="collection-banner__title">{{ collection.title }}</h1>
+    <p class="collection-banner__count">
+      {{ 'collections.product_count' | t: count: collection.products_count }}
+    </p>
+    {%- if collection.description != blank -%}
+      <div class="rich-text__body" style="margin-top: 1rem; max-width: 36rem;">
+        {{ collection.description }}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<section class="section" style="padding-top: 0;">
+  <div class="page-width">
+    {%- paginate collection.products by section.settings.products_per_page -%}
+      {%- if collection.products.size > 0 -%}
+        <div class="product-grid">
+          {%- for product in collection.products -%}
+            {% render 'product-card', product: product %}
+          {%- endfor -%}
+        </div>
+      {%- else -%}
+        <p class="empty-state">{{ 'collections.empty' | t }}</p>
+      {%- endif -%}
+
+      {%- if paginate.pages > 1 -%}
+        <nav class="section__header" style="margin-top: 2.5rem;" aria-label="Pagination">
+          {%- if paginate.previous -%}
+            <a class="section__link" href="{{ paginate.previous.url }}">Previous</a>
+          {%- endif -%}
+          <span>{{ paginate.current_page }} / {{ paginate.pages }}</span>
+          {%- if paginate.next -%}
+            <a class="section__link" href="{{ paginate.next.url }}">Next</a>
+          {%- endif -%}
+        </nav>
+      {%- endif -%}
+    {%- endpaginate -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection grid",
+  "tag": "section",
+  "class": "section-collection-grid",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 6,
+      "max": 36,
+      "step": 3,
+      "label": "Products per page",
+      "default": 12
+    }
+  ]
+}
+{% endschema %}
